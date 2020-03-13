@@ -7,14 +7,43 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Demo.Models;
 
+//Id(Key), Nome, Sobrenome, RA, Curso, Status, DataDeInicio, DataDeTermino, Email, Telefone, Escola, Endereço, DocumentoCPF
+
 namespace Demo.Controllers
 {
-    [Route("")]
-    [Route("admin")]
-    [Route("administradores")]
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
+        public IActionResult Index() {
+            return View();
+        }
+
+        public IActionResult CriarUsuario()
+        {
+            User usuario = new User
+            {
+                ID = 1,
+                PrimeiroNome = "Gustavo",
+                UltimoNome = "Cardim",
+                Login = "gustavocardim",
+                DataNascimento = DateTime.Now,
+                Email = "gustavo.cardim@gmail.com",
+                Telefone = "987654321"
+            };
+
+            return RedirectToAction("Envio", usuario);
+        }
+
+        public IActionResult Envio (User usuario)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            return View();
+        }
 
         public HomeController(ILogger<HomeController> logger)
         {
